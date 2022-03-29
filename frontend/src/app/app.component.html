@@ -1,0 +1,20 @@
+<form [formGroup]="socialForm">
+  <input type="text" placeholder="Share Link" name="link" formControlName="link" />
+  <br /><br />
+  <input type="text" placeholder="Any Message" name="message" formControlName="message" />
+  <br /><br />
+  <input type="text" placeholder="Paste Image Address" name="imageAddress" formControlName="imageAddress" />
+  <br /><br />
+
+  <div formArrayName="platforms">
+    <label>Choose Platforms to share on: </label>
+      
+      <input type="checkbox" name="Facebook" formControlName="facebook" />Facebook
+      <input type="checkbox" name="Twitter" formControlName="twitter" />Twitter
+      <input type="checkbox" name="Pinterest" formControlName="pinterest" />Pinterest <br /><br />
+    
+  </div>
+
+   
+    <button [disabled]="socialForm?.invalid" (click)="postData()">Post</button>
+</form>

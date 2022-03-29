@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Social Media</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <div align="center">
+        <form th:action="@{/upload}" method="Post">
+            <h1>Post to any Social Media</h1>
+            <input type="text" placeholder="Share Link" th:field="*{link}"/>
+            <br /><br />
+            <input type="text" placeholder="Any Message" th:field="*{message}"/>
+            <br /><br />
+            <input type="text" placeholder="Paste Image Address" th:field="*{imageAddress}"/>
+            <br /><br />
+            <div>
+                <label>Choose Platforms to share on: </label>
+
+                <input type="checkbox" th:field="*{platforms}"/>Facebook
+                <input type="checkbox" th:field="*{platforms}"/>Twitter
+                <input type="checkbox" th:field="*{platforms}"/>Pinterest <br /><br />
+
+            </div>
+            <button>Post</button>
+        </form>
+    </div>
+</body>
+</html>
