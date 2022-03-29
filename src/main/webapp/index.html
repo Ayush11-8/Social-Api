@@ -1,12 +1,11 @@
 <!DOCTYPE HTML>
-<html xmlns:th="https://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Social Media</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
     <div align="center">
-        <form th:action="@{/upload}" method="Post">
+        <form action="/upload" th:action="@{/upload}" method="post" th:object="${socialForm}">
             <h1>Post to any Social Media</h1>
             <input type="text" placeholder="Share Link" th:field="*{link}"/>
             <br /><br />
@@ -22,7 +21,7 @@
                 <input type="checkbox" th:field="*{platforms}"/>Pinterest <br /><br />
 
             </div>
-            <button>Post</button>
+            <button type="submit">Post</button>
         </form>
     </div>
 </body>

@@ -13,10 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.servlet.ModelAndView;
 
 
 import java.io.IOException;
@@ -35,6 +33,9 @@ public class SocialApiController {
     @Value("${facebook.url}")
     public String urlFaceboook;
 
+    @Value("${facebook.photos}")
+    public String photosFacebook;
+
     @Value("${twitter.url}")
     public String urlTwitter;
 
@@ -47,31 +48,31 @@ public class SocialApiController {
     @Value("${pinterest.cookie}")
     public String cookiePinterest;
 
-    @GetMapping("/")
-    public String index(){
-        return "index";
-    }
-
-    @PostMapping("/upload")
-    public ResponseEntity<String> upload(@RequestParam(required = false) List<String> platforms, @RequestParam(required = false) String link, @RequestParam(required = false) String message, @RequestParam(required = false) String imageAddress) throws UnirestException, JsonProcessingException {
+    @PostMapping(value = "/upload")
+    public String upload(@RequestParam List<String> platforms, @RequestParam String link, @RequestParam String message, @RequestParam(required = false) String imageAddress) throws UnirestException, JsonProcessingException {
 
         if (platforms.contains("Facebook")) {
             Map<String, String> paramsFacebook = new HashMap<String, String>();
+            Map<String, String> paramPhotosFacebook = new HashMap<String, String>();
             paramsFacebook.put("link", link);
             paramsFacebook.put("message", message);
-            paramsFacebook.put("url", imageAddress);
             paramsFacebook.put("access_token", accessToken);
+
+            paramPhotosFacebook.put("message", message);
+            paramPhotosFacebook.put("url", imageAddress);
+            paramPhotosFacebook.put("access_token", accessToken);
             RestTemplate template = new RestTemplate();
             template.postForLocation(urlFaceboook, paramsFacebook, String.class);
+            template.postForLocation(photosFacebook,paramPhotosFacebook, String.class);
 
         }
         else if (platforms.contains("Twitter")) {
             Unirest.setTimeouts(0, 0);
             Map<String, String> mapTwitter = new HashMap<String, String>();
-            mapTwitter.put("text", message + " " + imageAddress + " Link: " + link);
+            mapTwitter.put("text", " Link: " + link + " " + message + " " + imageAddress);
 
             HttpResponse<String> response = Unirest.post(urlTwitter)
-                    .header("Authorization", "OAuth oauth_consumer_key=\"iHCsSYJ98ZKBRKig7JosiQ7uu\",oauth_token=\"1501865044606271489-CDZQ4B6DD2gCGt0UgFkstgRL0a9A6w\",oauth_signature_method=\"HMAC-SHA1\",oauth_timestamp=\"1648461184\",oauth_nonce=\"wQJ8GifT4yu\",oauth_version=\"1.0\",oauth_signature=\"JSbVcVR8gMSB0fs3lKJr7p9z%2FoA%3D\"")
+                    .header("Authorization", "OAuth oauth_consumer_key=\"iHCsSYJ98ZKBRKig7JosiQ7uu\",oauth_token=\"1501865044606271489-CDZQ4B6DD2gCGt0UgFkstgRL0a9A6w\",oauth_signature_method=\"HMAC-SHA1\",oauth_timestamp=\"1648574308\",oauth_nonce=\"MSmOLHHJxa0\",oauth_version=\"1.0\",oauth_signature=\"ADtSkM1EjUGzk8H%2BEDDast5g80o%3D\"")
                     .header("Content-Type", "application/json")
                     .header("Cookie", "guest_id=v1%3A164751135559720933; guest_id_ads=v1%3A164751135559720933; guest_id_marketing=v1%3A164751135559720933; personalization_id=\"v1_amDlAQCyJ7j41JdWQovEKg==\"")
                     .body(mapTwitter)
@@ -106,9 +107,9 @@ public class SocialApiController {
         }
         else
         {
-            return ResponseEntity.status(HttpStatus.OK).body("Choose a platform to share on");
+            return "Choose a platform to share on";
         }
-        return null;
+        return "redirect:/upload";
     }
 
 

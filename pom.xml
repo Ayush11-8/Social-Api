@@ -37,7 +37,9 @@
 		<dependency>
 			<groupId>org.thymeleaf</groupId>
 			<artifactId>thymeleaf</artifactId>
+			<version>3.0.15.RELEASE</version>
 		</dependency>
+
 
 		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-jasper -->
 		<dependency>
@@ -45,8 +47,6 @@
 			<artifactId>tomcat-jasper</artifactId>
 			<version>9.0.58</version>
 		</dependency>
-
-
 
 		<dependency>
 			<groupId>com.mashape.unirest</groupId>
