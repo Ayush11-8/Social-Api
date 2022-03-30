@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -48,25 +50,42 @@ public class SocialApiController {
     @Value("${pinterest.cookie}")
     public String cookiePinterest;
 
-    @PostMapping(value = "/upload")
-    public String upload(@RequestParam List<String> platforms, @RequestParam String link, @RequestParam String message, @RequestParam(required = false) String imageAddress) throws UnirestException, JsonProcessingException {
 
-        if (platforms.contains("Facebook")) {
+    @GetMapping("/upload/")
+    public String greetingForm(Model model) {
+        model.addAttribute("socialForm", new SocialForm());
+        return "upload";
+    }
+
+    @PostMapping(value = "/upload")
+    public String upload(@ModelAttribute("socialForm") SocialForm socialForm, BindingResult bindingResult, Model model, @RequestParam List<String> platforms, @RequestParam String link, @RequestParam String message, @RequestParam(required = false) String imageAddress) throws UnirestException, JsonProcessingException {
+
+        if (bindingResult.hasErrors()) {
+            return "index";
+        }
+
+        model.addAttribute("socialForm",socialForm);
+
+
+        if (socialForm.getPlatforms().contains("Facebook")) {
             Map<String, String> paramsFacebook = new HashMap<String, String>();
             Map<String, String> paramPhotosFacebook = new HashMap<String, String>();
-            paramsFacebook.put("link", link);
-            paramsFacebook.put("message", message);
+            paramsFacebook.put("link", socialForm.getLink());
+            paramsFacebook.put("message", socialForm.getMessage());
             paramsFacebook.put("access_token", accessToken);
 
-            paramPhotosFacebook.put("message", message);
-            paramPhotosFacebook.put("url", imageAddress);
+            paramPhotosFacebook.put("message", socialForm.getMessage());
+            paramPhotosFacebook.put("url", socialForm.getImageAddress());
             paramPhotosFacebook.put("access_token", accessToken);
             RestTemplate template = new RestTemplate();
+
             template.postForLocation(urlFaceboook, paramsFacebook, String.class);
+
             template.postForLocation(photosFacebook,paramPhotosFacebook, String.class);
 
         }
-        else if (platforms.contains("Twitter")) {
+
+        if (socialForm.getPlatforms().contains("Twitter")) {
             Unirest.setTimeouts(0, 0);
             Map<String, String> mapTwitter = new HashMap<String, String>();
             mapTwitter.put("text", " Link: " + link + " " + message + " " + imageAddress);
@@ -81,7 +100,7 @@ public class SocialApiController {
             System.out.println(response.getBody() + response.getStatus());
         }
 
-        else if (platforms.contains("Pinterest")) {
+        if (socialForm.getPlatforms().contains("Pinterest")) {
             Unirest.setTimeouts(0, 0);
 
             JSONObject objectPinterest = new JSONObject();
@@ -105,11 +124,7 @@ public class SocialApiController {
             System.out.println(response.getBody() + response.getStatus());
 
         }
-        else
-        {
-            return "Choose a platform to share on";
-        }
-        return "redirect:/upload";
+        return "index";
     }
 
 

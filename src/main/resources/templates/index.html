@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Social Media</title>
+    <script type="text/javascript">
+        let platforms = [];
+        function selectedPlatforms(){
+
+            var checkboxes = document.querySelectorAll('input[name="platform"]:checked');
+            for (var checkbox of checkboxes)
+            {
+<!--                document.body.append(checkbox.value + ' ');-->
+                platforms.push(checkbox.value);
+            }
+            console.warn(platforms);
+            document.getElementById('final').value = platforms;
+        }
+
+    </script>
+</head>
+<body>
+    <div align="center">
+        <form action="#" th:action="@{/upload}" method="post" object="${socialForm}">
+            <h1>Post to any Social Media</h1>
+            <input type="text" placeholder="Share Link" name="link" field="*{link}"/>
+            <br /><br />
+            <input type="text" placeholder="Any Message" name="message" field="*{message}"/>
+            <br /><br />
+            <input type="text" placeholder="Paste Image Address" name="imageAddress" field="*{imageAddress}"/>
+            <br /><br />
+            <div>
+                <label>Choose Platforms to share on: </label>
+                <input type="checkbox" id="check1" value="Facebook" name="platform"/>Facebook
+                <input type="checkbox" id="check2" value="Twitter" name="platform"/>Twitter
+                <input type="checkbox" id="check3" value="Pinterest" name="platform"/>Pinterest <br /><br />
+            </div>
+
+            <input type="hidden" field="*{platforms}" id="final" name="platforms" value=""/>
+            <button id="btn" th:onclick="selectedPlatforms()">Post</button>
+
+        </form>
+    </div>
+
+</body>
+</html>
