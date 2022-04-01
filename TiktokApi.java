@@ -1,4 +1,4 @@
-package com.example.demo
+package com.example.demo;
 
 public class TiktokApiApplication {
     public static void main(String[] args) throws UnirestException {
