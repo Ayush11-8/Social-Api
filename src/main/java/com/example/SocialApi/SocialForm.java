@@ -10,4 +10,6 @@ public class SocialForm {
     private String message;
     private String imageAddress;
     private List<String> platforms;
+    private String tradeName;
+
 }

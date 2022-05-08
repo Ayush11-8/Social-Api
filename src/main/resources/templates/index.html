@@ -28,16 +28,18 @@
             <br /><br />
             IMAGE ADDRESS: <input type="text" placeholder="Paste Image Address" name="imageAddress" field="*{imageAddress}"/>
             <br /><br />
+            Trade: <input type="text" placeholder="Which Trade?" name="tradeName" field="*{tradeName}"/>
+            <br /><br />
             <div>
                 <label>Choose Platforms to share on: </label>
                 <input type="checkbox" id="check1" value="Facebook" name="platform"/>Facebook
                 <input type="checkbox" id="check2" value="Twitter" name="platform"/>Twitter
-                <input type="checkbox" id="check3" value="Pinterest" name="platform"/>Pinterest <br /><br />
+                <input type="checkbox" id="check3" value="Reddit" name="platform"/>Reddit
+                <input type="checkbox" id="check4" value="Pinterest" name="platform"/>Pinterest <br /><br />
             </div>
 
             <input type="hidden" field="*{platforms}" id="final" name="platforms" value=""/>
             <button id="btn" th:onclick="selectedPlatforms()">Post</button>
-
         </form>
     </div>
 
