@@ -11,7 +11,6 @@ public class SocialApiApplication {
 
 	public static void main(String[] args) throws UnirestException, IOException {
 		SpringApplication.run(SocialApiApplication.class, args);
-
 	}
 
 }
