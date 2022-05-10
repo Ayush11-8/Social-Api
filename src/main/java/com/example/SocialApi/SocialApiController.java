@@ -65,14 +65,16 @@ public class SocialApiController {
                 "{ 'AAPL':" +
                 "{'FB':'https://optioncircle-testing.s3.amazonaws.com/fb_user.html'," +
                 "'Twitter':'https://api.urlbox.io/v1/9k1O8WSzpfeMMF3b/fd636336809368b89f9265e68d02488c63971a57/png?url=https%3A%2F%2Foptioncircle-testing.s3.amazonaws.com%2Ffb_user.html&retina=true&full_page=true&width=1200&force=false&height=645'," +
-                "'Pinterest':'https://s3.amazonaws.com/optioncircle.com/images/linkedin.png'}}");
+                "'Pinterest':'https://i.pinimg.com/236x/b0/0e/64/b00e64e25e8ca5c5efc17321d64d0e9d.jpg'}}");
         JSONObject socialUrl = jsonObject.getJSONObject(socialForm.getTradeName());
 
 
         if (socialForm.getPlatforms().contains("Reddit")) {
             String command = "python D:\\NMBR\\Social-Api\\reddit_python.py "+socialForm.getLink()+" "+socialForm.getMessage();
-            System.out.println(command);
-            Process p = Runtime.getRuntime().exec(command);
+            Process pipInstall1 = Runtime.getRuntime().exec("pip install praw");
+            Process pipInstall2 = Runtime.getRuntime().exec("pip install requests");
+            Process pipInstall3 = Runtime.getRuntime().exec("pip install sys");
+            Process runPythonFile = Runtime.getRuntime().exec(command);
         }
 
 

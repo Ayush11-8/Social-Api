@@ -16,4 +16,4 @@ description = sys.argv[1]
 title = " ".join(sys.argv[2:])
 
 
-subreddit.submit(title,selftext=description)
+subreddit.submit(title,url=description)
